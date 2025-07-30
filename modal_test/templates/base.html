@@ -1,0 +1,30 @@
+{% extends 'django_bootstrap5/bootstrap5.html' %}
+{% load static i18n django_bootstrap5 %}
+
+{% block bootstrap5_extra_head %}
+{{ block.super }}
+<meta name="viewport" content="width=device-width"/>
+{% endblock %}
+
+{% block bootstrap5_extra_script %}
+{{ block.super }}
+{% endblock %}
+
+{% block bootstrap5_title %}Test{% endblock %}
+{% block title %}Test{% endblock %}
+
+{% block bootstrap5_content %}
+
+<!-- Content -->
+<div class="container" id="id_main_content">
+
+    <div class="row">
+        <div class="col-12">
+        <h3 class="page_title">{% block page_title %}{% endblock %}</h3>
+        {% bootstrap_messages %}
+        {% block content %}{% endblock %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}

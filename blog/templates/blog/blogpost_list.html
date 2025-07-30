@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static i18n django_bootstrap5 %}
+
+{% block bootstrap5_extra_head %}
+    {{ block.super }}
+{% endblock %}
+
+{% block bootstrap5_extra_script %}
+    {{ block.super }}
+    <script src="{% static 'js/bootstrap5.modal.forms.min.js' %}"></script>
+    <script type="text/javascript">
+
+        document.addEventListener('DOMContentLoaded', (e) => {
+            modalForm(document.getElementById('create-action'), {
+                formURL: "{% url 'blog:create' %}",
+                modalID: "#blogModal",
+            })
+        });
+
+        document.addEventListener('DOMContentLoaded', (e) => {
+            var updateButtons = document.getElementsByClassName("update-action");
+            for (var index = 0; index < updateButtons.length; index++) {
+                modalForm(updateButtons[index], {
+                    formURL: updateButtons[index]["dataset"]["formUrl"],
+                    modalID: "#blogModal",
+                });
+            }
+        });
+
+    </script>
+{% endblock %}
+
+{% block page_title %}{% trans 'Blog posts' %}{% endblock %}
+
+{% block content %}
+    <div class="modal fade" id="blogModal" role="dialog" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content"></div>
+        </div>
+    </div>
+
+    <button id="create-action" class="btn btn-success" role="button">
+        {% trans 'New' %}
+    </button>
+
+    {% for blogpost in blogpost_list %}
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <h3>{{ blogpost.title }}</h3>
+                <p>{{ blogpost.content }}</p>
+                <button class="btn btn-sm btn-secondary update-action" role="button"
+                        data-form-url="{% url 'blog:update' blogpost.id %}">
+                    {% trans 'Update' %}
+                </button>
+                <hr/>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
