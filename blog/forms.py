@@ -12,3 +12,12 @@ class BlogPostForm(BSModalModelForm):
             'title', 'content'
         ]
 
+    def clean_title(self):
+        print("I'm cleaning title")
+        print(self.cleaned_data)
+        title = self.cleaned_data.get('title')
+        if "a" not in title:
+            print('no letter "a" found in title')
+            raise forms.ValidationError("Must have the letter 'a' in the title")
+        print('letter "a" found in title')
+        return title
